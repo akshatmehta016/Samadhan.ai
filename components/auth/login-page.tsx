@@ -303,7 +303,10 @@ function CitizenGatewayForm() {
     e.preventDefault();
     setError(null);
     if (loginMethod === "mobile") {
-      if (phoneValue.length > 4) setStep(2);
+      if (phoneValue.length > 4) {
+        setOtp("4281");
+        setStep(2);
+      }
       return;
     }
     if (sending) return;
@@ -326,19 +329,13 @@ function CitizenGatewayForm() {
     if (loginMethod === "mobile") {
       if (otp.length >= 4) {
         setVerifying(true);
-        const citizen = ROLES.find((r) => r.id === "citizen")!;
-        try {
-          await loginWithCredentials(citizen.email, citizen.password);
-        } catch {
-          /* backend unavailable — fall back to client-side mock flag */
-        }
         try {
           window.sessionStorage.setItem("samadhan.citizen", "true");
         } catch {
           /* storage unavailable */
         }
         setTimeout(() => {
-          router.push("/");
+          router.push("/onboarding?role=citizen");
         }, 500);
       }
       return;
@@ -396,7 +393,7 @@ function CitizenGatewayForm() {
           )}
 
           <form onSubmit={handleSendCode}>
-            <div className="mb-5 mt-4">
+            <div className="mb-4 mt-4">
               <label className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-700">
                 {loginMethod === "mobile" ? "Mobile Number (with OTP)" : "Email ID (with Code)"}
               </label>
@@ -420,6 +417,30 @@ function CitizenGatewayForm() {
                 />
               )}
             </div>
+
+            {loginMethod === "mobile" && (
+              <div className="mb-4 rounded-2xl bg-teal-50/70 p-3 ring-1 ring-teal-100">
+                <div className="flex items-center justify-between">
+                  <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-teal-800">
+                    <KeyRound size={12} className="text-amber-500" /> Demo credentials · Citizen Mobile
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPhoneValue("+91 98765 43210");
+                      setError(null);
+                    }}
+                    className="rounded-full bg-white px-2 py-0.5 text-[10px] font-bold text-teal-700 ring-1 ring-teal-200 transition hover:bg-teal-50"
+                  >
+                    Autofill
+                  </button>
+                </div>
+                <div className="mt-1.5 flex items-center justify-between font-mono text-[11px] text-slate-700">
+                  <span className="truncate">Number: +91 98765 43210</span>
+                  <span className="shrink-0 text-teal-700 font-semibold">OTP: 4281</span>
+                </div>
+              </div>
+            )}
 
             <button
               type="submit"
@@ -477,6 +498,15 @@ function CitizenGatewayForm() {
             </div>
           )}
 
+          {loginMethod === "mobile" && (
+            <div className="mb-4 flex items-center justify-center gap-2 rounded-xl border border-teal-200 bg-teal-50 px-3 py-2 text-xs font-bold text-teal-800">
+              <KeyRound className="h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
+              <span>
+                Demo mode — use mock OTP: <span className="font-mono text-sm tracking-widest">4281</span> (or any 4 digits)
+              </span>
+            </div>
+          )}
+
           {error && (
             <div className="mb-4 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-xs font-semibold text-red-700">
               <AlertTriangle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
@@ -489,10 +519,15 @@ function CitizenGatewayForm() {
               <input
                 type="text"
                 inputMode="numeric"
-                maxLength={6}
+                maxLength={loginMethod === "email" ? 6 : 4}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="w-56 rounded-2xl border border-slate-300 bg-slate-50 py-3 text-center font-mono text-2xl font-black tracking-[0.4em] text-slate-900 transition-all focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-600/20 focus:outline-none"
+                className={cn(
+                  "rounded-2xl border border-slate-300 bg-slate-50 py-3 text-center font-mono font-black transition-all focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-600/20 focus:outline-none",
+                  loginMethod === "email"
+                    ? "w-56 text-2xl tracking-[0.4em]"
+                    : "w-48 text-3xl tracking-[0.6em]",
+                )}
                 placeholder={loginMethod === "email" ? "------" : "----"}
                 required
                 autoFocus
@@ -520,7 +555,7 @@ function CitizenGatewayForm() {
               className="mt-2.5 flex w-full items-center justify-center gap-1 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:text-teal-700 disabled:opacity-50"
             >
               <KeyRound className="h-3.5 w-3.5" />
-              <span>{sending ? "Requesting…" : "Resend code"}</span>
+              <span>{sending ? "Requesting…" : loginMethod === "mobile" ? "Resend mock OTP" : "Resend code"}</span>
             </button>
             <button
               type="button"

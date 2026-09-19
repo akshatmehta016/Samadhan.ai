@@ -46,7 +46,7 @@ export function PlatformStatsWidget({
     },
     {
       id: "high_priority",
-      title: "High Priority",
+      title: t("metricHighPriority", "High Priority"),
       value: n(live?.validated) ?? "7",
       growth: "+2%",
       subtext: t("metricNeedAttention", "needs attention"),
@@ -58,7 +58,7 @@ export function PlatformStatsWidget({
     },
     {
       id: "pending",
-      title: "Pending",
+      title: t("metricPending", "Pending"),
       value: live ? String(Math.max(0, live.issuesReported - live.validated)) : "18",
       growth: "+5%",
       subtext: t("metricNeedAssignment", "need assignment"),
@@ -70,7 +70,7 @@ export function PlatformStatsWidget({
     },
     {
       id: "in_progress",
-      title: "In Progress",
+      title: t("metricInProgress", "In Progress"),
       value: n(live?.workedOn) ?? "14",
       growth: "+8%",
       subtext: t("metricOnGoing", "ongoing work"),
@@ -82,7 +82,7 @@ export function PlatformStatsWidget({
     },
     {
       id: "resolved",
-      title: "Resolved",
+      title: t("metricResolved", "Resolved"),
       value: n(live?.deployed) ?? "16",
       growth: "+20%",
       subtext: t("metricThisWeek", "this week"),

@@ -1,0 +1,5 @@
+MONGO_URI="mongodb+srv://devharshalsharma_db_user:wlzDpiDBwqdSDQVG@cluster0.o748xq0.mongodb.net/samadhan?appName=Cluster0"
+JWT_SECRET="samadhan-demo-jwt-secret-please-change-in-production-2026"
+SMTP_USER=harshal.26ai4125@jietjodhpur.ac.in
+SMTP_PASS=eily jlse hvsq ncyq
+EMAIL_FROM="Samadhan.ai <harshal.26ai4125@jietjodhpur.ac.in>"

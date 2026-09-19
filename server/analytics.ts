@@ -51,6 +51,19 @@ export interface DistrictCount {
   resolved: number;
 }
 
+const DISTRICT_ALIASES: Record<string, string> = {
+  Ranchi: "Jodhpur",
+  Bokaro: "Sardarpura",
+  Dhanbad: "Ratanada",
+  Pakur: "Basni",
+  Jamshedpur: "Mandore",
+  Giridih: "Mogra Kalan",
+  Hazaribagh: "Shastri Nagar",
+  Deoghar: "Paota",
+  "East Singhbhum": "Jaipur",
+  Palamu: "Udaipur",
+};
+
 export async function getDistrictCounts(): Promise<DistrictCount[]> {
   const rows = await Issue.aggregate<{
     _id: string | null;
@@ -61,15 +74,23 @@ export async function getDistrictCounts(): Promise<DistrictCount[]> {
     { $group: { _id: "$location.district", count: { $sum: 1 }, statuses: { $push: "$status" } } },
   ]);
 
-  return rows
-    .filter((r) => r._id)
-    .map((r) => ({
-      district: r._id as string,
-      count: r.count,
-      active: r.statuses.filter((s) => WORKED_ON.includes(s as IssueStatus)).length,
-      resolved: r.statuses.filter((s) => s === "resolved").length,
-    }))
-    .sort((a, b) => b.count - a.count);
+  const mapped = new Map<string, DistrictCount>();
+  for (const r of rows) {
+    if (!r._id) continue;
+    const name = DISTRICT_ALIASES[r._id] || r._id;
+    const active = r.statuses.filter((s) => WORKED_ON.includes(s as IssueStatus)).length;
+    const resolved = r.statuses.filter((s) => s === "resolved").length;
+    const existing = mapped.get(name);
+    if (existing) {
+      existing.count += r.count;
+      existing.active += active;
+      existing.resolved += resolved;
+    } else {
+      mapped.set(name, { district: name, count: r.count, active, resolved });
+    }
+  }
+
+  return Array.from(mapped.values()).sort((a, b) => b.count - a.count);
 }
 
 export interface TrendPoint {

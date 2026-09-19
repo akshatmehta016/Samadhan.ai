@@ -34,9 +34,10 @@ export async function POST(request: Request) {
     await EmailOtp.findOneAndUpdate(
       { email: normalizedEmail },
       { code, expiresAt, attempts: 0 },
-      { upsert: true, new: true },
+      { upsert: true, returnDocument: "after" },
     );
-  } catch {
+  } catch (err) {
+    console.error("[otp send] Database error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 

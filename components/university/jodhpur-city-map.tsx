@@ -128,23 +128,29 @@ export const JODHPUR_COORDINATES = {
 type Landmark = (typeof JODHPUR_COORDINATES.landmarks)[0];
 
 const TILE_LAYERS = {
-  voyager: {
-    name: "Clean Voyager",
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-    subdomains: "abcd",
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
+  esri: {
+    name: "Clean Street",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; World Street Map',
   },
   osm: {
     name: "Standard OSM",
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     subdomains: "abc",
-    attribution: '&copy; OpenStreetMap contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   },
   satellite: {
     name: "Satellite Hybrid",
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     subdomains: "",
     attribution: '&copy; Esri &mdash; Earthstar Geographics',
+  },
+  topo: {
+    name: "Topographic",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
+    attribution: '&copy; Esri &mdash; Topo',
   },
 };
 
@@ -158,7 +164,7 @@ export function JodhpurCityMap({ className = "" }: { className?: string }) {
   const markersRef = useRef<Map<string, any>>(new Map());
 
   const [activeItem, setActiveItem] = useState<Landmark>(JODHPUR_COORDINATES.landmarks[2]); // Default to Ratanada
-  const [activeLayer, setActiveLayer] = useState<keyof typeof TILE_LAYERS>("voyager");
+  const [activeLayer, setActiveLayer] = useState<keyof typeof TILE_LAYERS>("esri");
   const [mapReady, setMapReady] = useState(false);
 
   // Initialize Leaflet map safely on client

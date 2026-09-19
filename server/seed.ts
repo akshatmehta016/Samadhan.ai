@@ -317,16 +317,16 @@ const DESC_TAILS = [
 ];
 
 const BULK_DISTRICTS: Array<[string, [number, number], number]> = [
-  ["Ranchi", [23.3441, 85.3096], 22],
-  ["Bokaro", [23.6693, 86.1511], 16],
-  ["Dhanbad", [23.7957, 86.4304], 14],
-  ["Pakur", [24.6382, 87.8496], 10],
-  ["Jamshedpur", [22.8046, 86.2029], 9],
-  ["Giridih", [24.1925, 86.3043], 7],
-  ["Hazaribagh", [23.9925, 85.3648], 6],
-  ["Deoghar", [24.4799, 86.6958], 5],
-  ["East Singhbhum", [22.8046, 86.2029], 5],
-  ["Palamu", [24.0373, 84.078], 6],
+  ["Jodhpur", [26.2885, 73.0243], 22],
+  ["Sardarpura", [26.2842, 73.0305], 18],
+  ["Ratanada", [26.2690, 73.0370], 15],
+  ["Basni", [26.2415, 73.0085], 13],
+  ["Mandore", [26.3570, 73.0410], 10],
+  ["Mogra Kalan", [26.2459, 73.0249], 8],
+  ["Shastri Nagar", [26.2780, 73.0080], 7],
+  ["Paota", [26.3020, 73.0450], 5],
+  ["Kaylana", [26.2900, 72.9750], 5],
+  ["Mehrangarh", [26.2978, 73.0185], 4],
 ];
 
 const DISTRICT_SEQ = BULK_DISTRICTS.flatMap(([name, coords, w]) =>

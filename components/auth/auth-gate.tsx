@@ -40,17 +40,23 @@ export function AuthGate({
 
     void fetchSession().then((session) => {
       if (cancelled) return;
-      if (!session || session.user.role !== requiredRole) {
-        try {
-          window.sessionStorage.removeItem(storageKey);
-        } catch {
-          /* storage unavailable */
+      if (session) {
+        if (session.user.role !== requiredRole) {
+          try {
+            window.sessionStorage.removeItem(storageKey);
+          } catch {
+            /* storage unavailable */
+          }
+          router.replace(redirectTo);
+          return;
         }
+        setSessionFlag(storageKey);
+        setRestored(true);
+      } else if (!isSessionFlag(storageKey)) {
         router.replace(redirectTo);
-        return;
+      } else {
+        setRestored(true);
       }
-      setSessionFlag(storageKey);
-      setRestored(true);
     });
 
     return () => {

@@ -117,7 +117,8 @@ export async function POST(request: Request) {
     cookieStore.set(SESSION_COOKIE, token, safeSessionCookieOptions());
 
     return NextResponse.json({ user: { ...sessionUser, email: user.email } });
-  } catch {
+  } catch (err) {
+    console.error("[otp verify] Database or auth error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

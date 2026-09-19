@@ -276,11 +276,11 @@ export function GovernmentDashboard({ allowReset = false }: { allowReset?: boole
       <section className="glass rounded-2xl p-4">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-extrabold text-slate-900">District Report Heatmap</h2>
-            <p className="text-xs text-slate-700">Per-branch issue counts, in-work vs resolved</p>
+            <h2 className="text-sm font-extrabold text-slate-900">Jodhpur & Regional Civic Heatmap</h2>
+            <p className="text-xs text-slate-700">Per-zone and ward issue distribution across Jodhpur, in-work vs resolved</p>
           </div>
           <span className="rounded-full bg-primary-50 px-2.5 py-1 text-[10px] font-extrabold text-primary-700">
-            {(stats?.districts ?? 0) || districts.length} DISTRICTS
+            {(stats?.districts ?? 0) || districts.length} ZONES & WARDS
           </span>
         </div>
         {loading ? (

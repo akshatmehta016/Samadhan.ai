@@ -335,12 +335,17 @@ export const IMPACT_SERIES = [
 ];
 
 export const DISTRICT_SERIES = [
-  { district: "Jodhpur", count: 3210 },
-  { district: "Udaipur", count: 1874 },
+  { district: "Jodhpur", count: 1250 },
+  { district: "Sardarpura", count: 893 },
+  { district: "Ratanada", count: 646 },
+  { district: "Basni", count: 489 },
+  { district: "Mandore", count: 346 },
+  { district: "Mogra Kalan", count: 290 },
+  { district: "Shastri Nagar", count: 240 },
+  { district: "Paota", count: 180 },
   { district: "Jaipur", count: 1652 },
+  { district: "Udaipur", count: 1874 },
   { district: "Kota", count: 1211 },
-  { district: "Bikaner", count: 1087 },
-  { district: "Ajmer", count: 954 },
 ];
 
 export const SECTOR_SHARE = [

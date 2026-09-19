@@ -63,6 +63,33 @@ function detailTimeline(timeline: ApiTimelineEntry[] | undefined): ReportTimelin
   }));
 }
 
+const LEGACY_DISTRICT_MAP: Record<string, string> = {
+  Ranchi: "Jodhpur",
+  Bokaro: "Sardarpura",
+  Dhanbad: "Ratanada",
+  Pakur: "Basni",
+  Jamshedpur: "Mandore",
+  Giridih: "Mogra Kalan",
+  Hazaribagh: "Shastri Nagar",
+  Deoghar: "Paota",
+  "East Singhbhum": "Jaipur",
+  Palamu: "Udaipur",
+};
+
+function normalizeLocation(label?: string, district?: string): string {
+  let cleanDistrict = district ? (LEGACY_DISTRICT_MAP[district] || district) : "Jodhpur";
+  let cleanLabel = label || cleanDistrict;
+
+  for (const [legacy, modern] of Object.entries(LEGACY_DISTRICT_MAP)) {
+    cleanLabel = cleanLabel.replace(new RegExp(`\\b${legacy}\\b`, "gi"), modern);
+  }
+
+  if (cleanLabel.toLowerCase().includes(cleanDistrict.toLowerCase())) {
+    return cleanLabel;
+  }
+  return `${cleanLabel}, ${cleanDistrict}`;
+}
+
 export function universityReportFromApiIssue(issue: ApiIssue, index = 0): UniversityReport {
   const meta = STATUS_MAP[issue.status] ?? STATUS_MAP.reported;
   const image = issue.photo || THUMBNAILS[index % THUMBNAILS.length];
@@ -70,7 +97,7 @@ export function universityReportFromApiIssue(issue: ApiIssue, index = 0): Univer
   return {
     id: issue.id,
     title: issue.title,
-    location: `${issue.location.label}, ${issue.location.district}`,
+    location: normalizeLocation(issue.location?.label, issue.location?.district),
     category: issue.categoryLabel || issue.category,
     status: meta.status,
     statusColor: meta.statusColor,

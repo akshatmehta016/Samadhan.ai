@@ -18,38 +18,71 @@ export interface DistrictDatum {
   resolved: number;
 }
 
-const DISTRICT_COORDS: Record<string, [number, number]> = {
-  "Ranchi": [23.3441, 85.3096],
-  "Bokaro": [23.6693, 86.1511],
-  "Dhanbad": [23.7957, 86.4304],
-  "Pakur": [24.6382, 87.8496],
-  "Jamshedpur": [22.8046, 86.2029],
-  "Giridih": [24.1925, 86.3043],
-  "Jodhpur": [26.2389, 73.0243],
+export const JODHPUR_CENTER: [number, number] = [26.2885, 73.0243];
+
+export const JODHPUR_DISTRICT_COORDS: Record<string, [number, number]> = {
+  // Jodhpur Central & Civic Zones
+  "Jodhpur": [26.2885, 73.0243],
+  "Jodhpur Central": [26.2885, 73.0243],
+  "Sardarpura": [26.2842, 73.0305],
+  "Ratanada": [26.2690, 73.0370],
+  "Basni": [26.2415, 73.0085],
+  "Mandore": [26.3570, 73.0410],
+  "Mogra Kalan": [26.2459, 73.0249],
+  "Shastri Nagar": [26.2780, 73.0080],
+  "Paota": [26.3020, 73.0450],
+  "Kaylana": [26.2900, 72.9750],
+  "Mehrangarh": [26.2978, 73.0185],
+  "Karwar": [26.4715, 73.1135],
+  // Major Rajasthan Districts
   "Jaipur": [26.9124, 75.7873],
-  "Unknown": [23.5, 85.7],
+  "Udaipur": [24.5854, 73.7125],
+  "Bikaner": [28.0229, 73.3119],
+  "Kota": [25.2138, 75.8648],
+  "Ajmer": [26.4499, 74.6399],
+  "Pali": [25.7711, 73.3234],
+  "Barmer": [25.7521, 71.3967],
+  "Nagaur": [27.2070, 73.7423],
+  "Jaisalmer": [26.9157, 70.9083],
 };
 
-const STATE_CENTER: [number, number] = [23.6345, 85.4447];
+const DISTRICT_NAME_MAP: Record<string, string> = {
+  Ranchi: "Jodhpur",
+  Bokaro: "Sardarpura",
+  Dhanbad: "Ratanada",
+  Pakur: "Basni",
+  Jamshedpur: "Mandore",
+  Giridih: "Mogra Kalan",
+  Hazaribagh: "Shastri Nagar",
+  Deoghar: "Paota",
+  "East Singhbhum": "Jaipur",
+  Palamu: "Udaipur",
+};
 
 const TILE_LAYERS = {
-  voyager: {
-    name: "Clean Voyager",
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-    subdomains: "abcd",
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
+  esri: {
+    name: "Clean Street",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; World Street Map',
   },
   osm: {
     name: "Standard OSM",
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     subdomains: "abc",
-    attribution: "&copy; OpenStreetMap contributors",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   },
   satellite: {
     name: "Satellite Hybrid",
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     subdomains: "",
-    attribution: "&copy; Esri &mdash; Earthstar Geographics",
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Earthstar Geographics',
+  },
+  topo: {
+    name: "Topographic",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Topo',
   },
 };
 
@@ -75,17 +108,26 @@ export function DistrictMap({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const markersRef = useRef<Map<string, any>>(new Map());
 
-  const [activeLayer, setActiveLayer] = useState<keyof typeof TILE_LAYERS>("voyager");
+  const [activeLayer, setActiveLayer] = useState<keyof typeof TILE_LAYERS>("esri");
   const [mapReady, setMapReady] = useState(false);
-  const [activeItem, setActiveItem] = useState<DistrictDatum | null>(
-    () => districts[0] ?? null,
-  );
 
   const points: { datum: DistrictDatum; lat: number; lng: number }[] = districts.map(
     (d) => {
-      const [lat, lng] = DISTRICT_COORDS[d.district] ?? DISTRICT_COORDS.Unknown;
-      return { datum: d, lat, lng };
+      const mappedName = DISTRICT_NAME_MAP[d.district] || d.district;
+      const coords =
+        JODHPUR_DISTRICT_COORDS[mappedName] ||
+        JODHPUR_DISTRICT_COORDS[d.district] ||
+        JODHPUR_CENTER;
+      return {
+        datum: { ...d, district: mappedName },
+        lat: coords[0],
+        lng: coords[1],
+      };
     },
+  );
+
+  const [activeItem, setActiveItem] = useState<DistrictDatum | null>(
+    () => points[0]?.datum ?? null,
   );
 
   useEffect(() => {
@@ -102,8 +144,8 @@ export function DistrictMap({
       if (isCancelled || !mapContainerRef.current) return;
 
       const map = L.map(mapContainerRef.current, {
-        center: STATE_CENTER,
-        zoom: 8,
+        center: JODHPUR_CENTER,
+        zoom: 11,
         zoomControl: false,
         attributionControl: false,
       });
@@ -190,7 +232,7 @@ export function DistrictMap({
 
   const resetView = () => {
     if (mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo(STATE_CENTER, 8, { duration: 1.2 });
+      mapInstanceRef.current.flyTo(JODHPUR_CENTER, 11, { duration: 1.2 });
     }
   };
 
