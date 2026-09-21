@@ -21,7 +21,7 @@ export const PRIMARY_ISSUE: Issue = {
   reportedBy: "Priya Sharma",
   reportedDaysAgo: 3,
   imageUrl:
-    "https://images.pexels.com/photos/13726337/pexels-photo-13726337.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=800",
   upvotes: 48,
   commentsCount: 14,
   updatesCount: 3,
@@ -171,7 +171,7 @@ export const INITIAL_COMMENTS: DiscussionComment[] = [
     daysAgo: "2 days ago",
     text: "Yes, same here. We've also raised a complaint at the local sub-divisional office. They cited pipe maintenance but gave no estimated date.",
     imageUrl:
-      "https://images.pexels.com/photos/13726337/pexels-photo-13726337.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=400",
     upvotes: 8,
     hasUpvoted: true,
     repliesCount: 2,

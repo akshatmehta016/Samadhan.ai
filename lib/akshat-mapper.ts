@@ -29,8 +29,7 @@ export function timeAgoFromIso(iso: string): string {
   return `${Math.floor(days / 7)} wk ago`;
 }
 
-const FALLBACK_ISSUE_IMAGE =
-  "https://images.pexels.com/photos/13726337/pexels-photo-13726337.jpeg?auto=compress&cs=tinysrgb&w=800";
+import { getIssueImageByTitleAndCategory, isValidIssueImage } from "@/lib/issue-images";
 
 const STATUS_MAP: Record<string, AkshatIssue["status"]> = {
   reported: "New",
@@ -51,6 +50,9 @@ export function apiIssueToAkshat(issue: ApiIssue): AkshatIssue {
   const district = issue.location.district?.trim();
   const place = district && label && label !== district ? `${label}, ${district}` : label || district || "";
 
+  const photo = isValidIssueImage(issue.photo) ? issue.photo : undefined;
+  const imageUrl = photo ?? getIssueImageByTitleAndCategory(issue.title, issue.categoryLabel || issue.category, issue.description);
+
   return {
     id: issue.id,
     title: issue.title,
@@ -62,7 +64,7 @@ export function apiIssueToAkshat(issue: ApiIssue): AkshatIssue {
     status: akshatIssueStatus(issue.status),
     reportedBy: issue.reportedBy || issue.postedBy || "Citizen",
     reportedDaysAgo: daysAgoFromIso(issue.createdAt),
-    imageUrl: issue.photo || FALLBACK_ISSUE_IMAGE,
+    imageUrl,
     upvotes: issue.upvotes ?? 0,
     commentsCount: issue.commentsCount ?? 0,
     updatesCount: 0,
@@ -145,6 +147,9 @@ export function storeIssueToAkshat(issue: {
   const district = issue.location?.district?.trim() ?? "";
   const place = district && label && label !== district ? `${label}, ${district}` : label || district || "";
 
+  const photo = (isValidIssueImage(issue.imageUrl) ? issue.imageUrl : null) || (isValidIssueImage(issue.photo) ? issue.photo : null);
+  const imageUrl = photo ?? getIssueImageByTitleAndCategory(issue.title, issue.category, issue.description);
+
   return {
     id: issue.id,
     title: issue.title,
@@ -156,7 +161,7 @@ export function storeIssueToAkshat(issue: {
     status: akshatIssueStatus(issue.status),
     reportedBy: issue.reportedBy || "Citizen",
     reportedDaysAgo: issue.reportedDaysAgo ?? 0,
-    imageUrl: issue.imageUrl || issue.photo || FALLBACK_ISSUE_IMAGE,
+    imageUrl,
     upvotes: issue.upvotes ?? 0,
     commentsCount: issue.commentsCount ?? 0,
     updatesCount: 0,

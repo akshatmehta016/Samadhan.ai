@@ -40,6 +40,7 @@ import {
   SEED_TEAMS,
   UNIVERSITIES,
 } from "@/lib/data/mock-data";
+import { getIssueImageByTitleAndCategory } from "@/lib/issue-images";
 
 const DAY = 86_400_000;
 const now = Date.now();
@@ -551,7 +552,10 @@ export async function reseed(): Promise<SeedRunResult> {
     } = {};
     if (issue.matchScore != null) extra.matchScore = issue.matchScore;
     if (issue.assignedUniversityId) extra.assignedUniversityId = issue.assignedUniversityId;
-    if (issue.imageUrl ?? issue.photo) extra.photo = issue.imageUrl ?? issue.photo;
+    extra.photo =
+      issue.imageUrl ??
+      issue.photo ??
+      getIssueImageByTitleAndCategory(issue.title, issue.category, issue.description);
     await Issue.findOneAndUpdate(
       { _id: issue.id },
       {
@@ -779,6 +783,7 @@ export async function reseed(): Promise<SeedRunResult> {
     trustScore: number;
     matchScore?: number;
     assignedUniversityId?: string;
+    photo?: string;
     status: IssueStatus;
     createdAt: Date;
   }> = [];
@@ -830,6 +835,7 @@ export async function reseed(): Promise<SeedRunResult> {
       trustScore,
       matchScore,
       assignedUniversityId,
+      photo: getIssueImageByTitleAndCategory(title, category),
       status,
       createdAt,
     });

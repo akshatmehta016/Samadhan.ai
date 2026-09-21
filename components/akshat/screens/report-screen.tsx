@@ -15,6 +15,7 @@ import {
 import type { ScreenId } from "@/lib/akshat-types";
 import type { DraftIssue, Severity } from "@/lib/types";
 import { categoryLabelToSlug, DEFAULT_REPORT_LOCATION } from "@/lib/akshat-mapper";
+import { getIssueImageByTitleAndCategory } from "@/lib/issue-images";
 import { cn } from "@/lib/utils";
 import { useAkshat } from "@/components/akshat/akshat-context";
 import { DocumentUploader } from "@/components/ui/document-uploader";
@@ -65,14 +66,16 @@ export const ReportIssueScreen = ({ setScreen, onDraftChange }: ReportIssueScree
   };
 
   useEffect(() => {
+    const effectiveTitle = title.trim() ? title.trim() : `${category} Issue - Community Reported`;
+    const defaultPhoto = getIssueImageByTitleAndCategory(effectiveTitle, category, shownDescription);
     onDraftChange?.({
-      title: title.trim() ? title.trim() : `${category} Issue - Community Reported`,
+      title: effectiveTitle,
       description: shownDescription,
       category: categoryLabelToSlug(category) as DraftIssue["category"],
       severity: SEVERITY_MAP[urgency] ?? "High",
       location: { ...DEFAULT_REPORT_LOCATION },
       peopleAffected: 50,
-      photo: photo ?? undefined,
+      photo: photo ?? defaultPhoto,
     });
   }, [shownDescription, category, title, urgency, photo, onDraftChange]);
 

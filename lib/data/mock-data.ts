@@ -157,7 +157,7 @@ export const FLAGSHIP_ISSUE: Issue = {
   matchScore: 97,
   assignedUniversityId: "bit-mesra",
   imageUrl:
-    "https://images.pexels.com/photos/13726337/pexels-photo-13726337.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=800",
   createdAt: now - 3 * DAY,
 };
 
@@ -201,7 +201,15 @@ export const SEED_ISSUES: Issue[] = [
     "Ward 5",
     "Jodhpur",
     "Overflowing open drains on the main road to the school are a daily health hazard for students.",
-    { reportedBy: "Ravi Kumar", upvotes: 32, commentsCount: 9, status: "funded", matchScore: 94, assignedUniversityId: "iit-jodhpur" },
+    {
+      reportedBy: "Ravi Kumar",
+      upvotes: 32,
+      commentsCount: 9,
+      status: "funded",
+      matchScore: 94,
+      assignedUniversityId: "iit-jodhpur",
+      imageUrl: "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800",
+    },
   ),
   seeded(
     "LOK-1011",
@@ -213,7 +221,15 @@ export const SEED_ISSUES: Issue[] = [
     "Ward 14",
     "Jodhpur",
     "Nine streetlights along Maple Road have been non-functional for over eight months, creating unsafe conditions after dark.",
-    { reportedBy: "Anita Roy", upvotes: 21, commentsCount: 4, status: "team_formed", matchScore: 88, assignedUniversityId: "mody-university" },
+    {
+      reportedBy: "Anita Roy",
+      upvotes: 21,
+      commentsCount: 4,
+      status: "team_formed",
+      matchScore: 88,
+      assignedUniversityId: "mody-university",
+      imageUrl: "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800",
+    },
   ),
   seeded(
     "LOK-0990",
@@ -225,7 +241,15 @@ export const SEED_ISSUES: Issue[] = [
     "Ward 2",
     "Jodhpur",
     "Primary health centre routinely runs out of essential medicines; six adjoining villages share one doctor.",
-    { reportedBy: "Dr. Meena Kumari", upvotes: 57, commentsCount: 21, status: "proposed", matchScore: 95, assignedUniversityId: "aiims-jodhpur" },
+    {
+      reportedBy: "Dr. Meena Kumari",
+      upvotes: 57,
+      commentsCount: 21,
+      status: "proposed",
+      matchScore: 95,
+      assignedUniversityId: "aiims-jodhpur",
+      imageUrl: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=800",
+    },
   ),
   seeded(
     "LOK-0987",
@@ -237,7 +261,15 @@ export const SEED_ISSUES: Issue[] = [
     "Ward 11",
     "Jodhpur",
     "The shared borewell for the farm belt has dried up; 40 acres currently depend entirely on monsoon.",
-    { reportedBy: "Sunil Mahto", upvotes: 18, commentsCount: 3, status: "ai_validated", matchScore: 82, assignedUniversityId: "gpc-jodhpur" },
+    {
+      reportedBy: "Sunil Mahto",
+      upvotes: 18,
+      commentsCount: 3,
+      status: "ai_validated",
+      matchScore: 82,
+      assignedUniversityId: "gpc-jodhpur",
+      imageUrl: "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800",
+    },
   ),
   seeded(
     "LOK-0974",
@@ -249,7 +281,13 @@ export const SEED_ISSUES: Issue[] = [
     "Ward 9",
     "Jodhpur",
     "Public buildings lack accessible ramps for wheelchair users; elders are forced to navigate steps.",
-    { reportedBy: "Kiran Gopal", upvotes: 12, commentsCount: 2, status: "reported" },
+    {
+      reportedBy: "Kiran Gopal",
+      upvotes: 12,
+      commentsCount: 2,
+      status: "reported",
+      imageUrl: "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
+    },
   ),
   seeded(
     "LOK-0902",

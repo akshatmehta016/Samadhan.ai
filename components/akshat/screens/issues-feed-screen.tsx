@@ -164,6 +164,7 @@ export const IssuesFeedScreen = ({
                 <SafeIssueImage
                   src={issue.imageUrl}
                   alt={issueField(t, issue, "title", issue.title)}
+                  category={issue.category}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />

@@ -22,6 +22,7 @@ import {
 } from "@/server/models";
 import { analysisFor } from "@/lib/data/mock-data";
 import { ISSUE_STATUS_ORDER } from "@/lib/types";
+import { getIssueImageByTitleAndCategory, isValidIssueImage } from "@/lib/issue-images";
 
 export const runtime = "nodejs";
 
@@ -138,6 +139,11 @@ export async function POST(request: Request) {
 
     const severityResult = computeSeverity(description, Number.isFinite(peopleAffected) ? peopleAffected : 0);
 
+    const finalPhoto =
+      typeof photo === "string" && isValidIssueImage(photo)
+        ? photo
+        : getIssueImageByTitleAndCategory(title, category, description);
+
     const doc = await Issue.create({
       _id: id,
       title,
@@ -148,7 +154,7 @@ export async function POST(request: Request) {
       reportedBy: auth.user.id,
       peopleAffected: Number.isFinite(peopleAffected) ? Math.max(0, peopleAffected) : 0,
       trustScore,
-      photo,
+      photo: finalPhoto,
       status: createStatus,
       ...(assignedUniversityId ? { assignedUniversityId } : {}),
       ...(matchScore !== undefined ? { matchScore } : {}),
