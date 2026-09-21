@@ -20,11 +20,8 @@ const STATUS_MAP: Record<
   resolved: { status: "Resolved", statusColor: "emerald" },
 };
 
-const THUMBNAILS = [
-  "https://images.pexels.com/photos/6333640/pexels-photo-6333640.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/19156793/pexels-photo-19156793.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800",
-];
+import { getIssueImageByTitleAndCategory } from "@/lib/issue-images";
+
 
 const STEPS_COUNT = 4;
 
@@ -92,7 +89,13 @@ function normalizeLocation(label?: string, district?: string): string {
 
 export function universityReportFromApiIssue(issue: ApiIssue, index = 0): UniversityReport {
   const meta = STATUS_MAP[issue.status] ?? STATUS_MAP.reported;
-  const image = issue.photo || THUMBNAILS[index % THUMBNAILS.length];
+  const image =
+    issue.photo ||
+    getIssueImageByTitleAndCategory(
+      issue.title,
+      issue.categoryLabel || issue.category,
+      issue.description
+    );
 
   return {
     id: issue.id,

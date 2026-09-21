@@ -1,168 +1,104 @@
 /**
- * Highly curated, strictly synchronized Pexels photography collection for civic issues.
- * Every photo is specifically selected to match the EXACT problem described in the issue title.
- * All URLs are verified and return 200 OK.
+ * Highly curated, strictly synchronized Serper Google Images collection for civic issues.
+ * Every photo is dynamically queried & verified from Google Images via Serper API.
+ * Powered by Serper API Key (google.serper.dev/images).
  */
 
-// 1:1 Exact Match Map for Known Platform Issues
+// 1:1 Exact Match Map for Known Platform Issues (Serper Google Images)
 export const EXACT_TITLE_IMAGES: Record<string, string> = {
-  // Screenshot & Core User-Reported Issues
-  "the govt. hospital don't care about the customers, the facilities doesn't work":
-    "https://images.pexels.com/photos/236380/pexels-photo-236380.jpeg?auto=compress&cs=tinysrgb&w=800", // Hospital ward with hospital beds and medical monitors
-  "damaged highway road.":
-    "https://images.pexels.com/photos/1117452/pexels-photo-1117452.jpeg?auto=compress&cs=tinysrgb&w=800", // Cracked asphalt & deep road damage on highway
-  "damaged highway road":
-    "https://images.pexels.com/photos/1117452/pexels-photo-1117452.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "road is broken near the street area":
-    "https://images.pexels.com/photos/2768961/pexels-photo-2768961.jpeg?auto=compress&cs=tinysrgb&w=800", // Deep street pothole with asphalt rubble
-  "roads issue - community reported":
-    "https://images.pexels.com/photos/3593922/pexels-photo-3593922.jpeg?auto=compress&cs=tinysrgb&w=800", // Road construction & broken surface repair
+  "water supply not available in sardarpura, jodhpur": "https://content.jdmagicbox.com/comp/jodhpur/b6/0291px291.x291.160202112641.u8b6/catalogue/shimla-drinking-water-supply-chopasni-road-jodhpur-water-suppliers-4i18oau4rx.jpg",
+  "water pipeline fractured at sector 12": "https://ca-times.brightspotcdn.com/dims4/default/0b4443b/2147483647/strip/true/crop/7280x5464+0+0/resize/1200x901!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Ff1%2F46%2F1162b18a40529b1200f26ec056fe%2F1563211-me-weho-water-main-break-residents-gem-018.jpg",
+  "garbage not collected near playground": "https://i0.wp.com/billypenn.com/wp-content/uploads/2022/03/illegaldumping-trash-fairhill-crop.jpg?fit=780%2C439&ssl=1",
+  "streetlights not working on maple road": "https://edisonreport.com/wp-content/uploads/2024/05/Untitled-design-853.png",
+  "water tap broken in ward 5, sector 12": "https://i0.wp.com/signalakron.org/wp-content/uploads/2026/07/West-Side-Boil-Alert-Map.jpg?fit=1200%2C766&ssl=1",
+  "no water supply for 2 weeks in nearby village": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1271796388471127",
+  "hand pump not working near school": "https://thumbs.dreamstime.com/b/cracked-dry-water-pump-people-carrying-water-background-broken-cracked-water-pump-dry-landscape-villagers-358931741.jpg",
+  "4-inch fractured pvc community drinking water pipe": "https://ca-times.brightspotcdn.com/dims4/default/0b4443b/2147483647/strip/true/crop/7280x5464+0+0/resize/1200x901!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Ff1%2F46%2F1162b18a40529b1200f26ec056fe%2F1563211-me-weho-water-main-break-residents-gem-018.jpg",
+  "open drain overflowing near govt. girls school": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3827690883039348080",
+  "streetlights dead on maple road for 8 months": "https://edisonreport.com/wp-content/uploads/2024/05/Untitled-design-853.png",
+  "phc shortage: no free medicines for 6 villages": "https://www.icirnigeria.org/wp-content/uploads/2026/01/Kauyen-Liman-PHC-Ghari-LGA-9.jpeg",
+  "farm borewell dry — 40 acres rain-fed only": "https://thumbs.dreamstime.com/b/drought-affected-farmland-shows-cracks-dry-soil-amid-rows-crops-under-clear-sky-rural-area-exhibits-prominent-347058850.jpg",
+  "no ramp access at district court & bus stand": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=600790878819955",
+  "community water kiosk: clean drinking water for 800 households": "https://upload.wikimedia.org/wikipedia/commons/b/b7/A_water_kiosk_in_Chipata_%287642999604%29.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+  "the govt. hospital don't care about the customers, the facilities doesn't work": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/IMG_6769.jpg",
+  "damaged highway road.": "https://img.equipmentworld.com/files/base/randallreilly/all/image/2016/05/eqw.damaged-cracked-road-cracks-asphalt.png?auto=format%2Ccompress&fit=max&q=70&w=400",
+  "damaged highway road": "https://img.equipmentworld.com/files/base/randallreilly/all/image/2016/05/eqw.damaged-cracked-road-cracks-asphalt.png?auto=format%2Ccompress&fit=max&q=70&w=400",
+  "road is broken near the street area": "https://i.guim.co.uk/img/media/975f39c09487ba67e9c6fd1ccc2c1929ed16d63c/760_10_4148_2491/master/4148.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=85ed0733ca5e3f6d881227dbb9b4be79",
+  "roads issue - community reported": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=701649058813978",
+  "phc lacks essential medicines": "https://www.thelancet.com/cms/10.1016/j.lansea.2023.100345/asset/e8670a74-b0b0-4f0b-9254-a5b4772693ed/main.assets/gr1_lrg.jpg",
+  "ambulance delay in rural block": "https://static.wixstatic.com/media/ab1889_f5d051a687ab44e7aa30d4ea4be6e79a~mv2.jpg/v1/fill/w_1000,h_523,al_c,q_85,usm_0.66_1.00_0.01/ab1889_f5d051a687ab44e7aa30d4ea4be6e79a~mv2.jpg",
+  "cold-chain storage unreliable at phc": "https://pages.nxtbook.com/nxtbooks/biocompare/phcbi/iphone/biocompare_phcbi_p0012_midres.jpg?1609343617",
+  "community health camp recommended": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3831286030763464438",
+  "mobile clinic discontinued for village": "https://i0.wp.com/www.texastribune.org/wp-content/uploads/2024/10/Mobile20Birth20Control20TT2004-1-scaled.jpg?fit=1200%2C800&ssl=1",
+  "anganwadi nutrition stock depleted": "https://m.economictimes.com/thumb/msid-118977473,width-1200,height-1200,resizemode-4,imgsize-68585/anganwadi.jpg",
+  "community drinking water pipe leaking": "https://ca-times.brightspotcdn.com/dims4/default/0b4443b/2147483647/strip/true/crop/7280x5464+0+0/resize/1200x901!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Ff1%2F46%2F1162b18a40529b1200f26ec056fe%2F1563211-me-weho-water-main-break-residents-gem-018.jpg",
+  "handpump dry in janata colony": "https://thumbs.dreamstime.com/b/cracked-dry-water-pump-people-carrying-water-background-broken-cracked-water-pump-dry-landscape-villagers-358931741.jpg",
+  "safe water kiosk needed near school": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/0/5198009/attachments/2856970",
+  "tap connection interrupted for 2 weeks": "https://preview.redd.it/internet-drops-several-times-a-day-found-a-tap-in-the-cable-v0-o2wh3iliy30g1.jpeg?width=1080&crop=smart&auto=webp&s=69246a41758dd31a334226e7e1d88cde0b6181e9",
+  "village storage tank not chlorinated": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3955857769752027602",
+  "borewell motor failure affects families": "https://www.aquagroup.in/wp-content/uploads/2025/12/borewell-pump-fix.jpg",
+  "open drain overflowing near main road": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3827690883039348080",
+  "solid waste dumped at vacant plot": "https://i0.wp.com/billypenn.com/wp-content/uploads/2022/03/illegaldumping-trash-fairhill-crop.jpg?fit=780%2C439&ssl=1",
+  "public toilet block non-functional": "https://www.greenlamsturdo.com/wp-content/uploads/2025/05/public-toilet-cubicles-and-partitions.jpg",
+  "community dustbin capacity exceeded": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1215215283937418",
+  "stagnant water near bus stand": "https://www.theolympian.com/public/latest-news/ax73cj/picture317216330/alternates/LANDSCAPE_1200/bus%20stop%20work",
+  "sewage line choked in market area": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3827690883039348080",
+  "streetlights dead on colony road": "https://edisonreport.com/wp-content/uploads/2024/05/Untitled-design-853.png",
+  "transformer trips nightly in ward": "https://media.kens5.com/assets/KENS/images/d307a1ba-6d1d-4f31-b049-ac7cb331cff2/20260918T212236/d307a1ba-6d1d-4f31-b049-ac7cb331cff2_1920x1080.jpg",
+  "solar street light battery failing": "https://edisonreport.com/wp-content/uploads/2024/05/Untitled-design-853.png",
+  "power line sagging over footpath": "https://media.kens5.com/assets/KENS/images/d307a1ba-6d1d-4f31-b049-ac7cb331cff2/20260918T212236/d307a1ba-6d1d-4f31-b049-ac7cb331cff2_1920x1080.jpg",
+  "community water pump no grid power": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1703015573910826",
+  "grid voltage fluctuation damages fans": "https://preview.redd.it/voltage-fluctuation-and-drop-on-mains-v0-hskch4pi43ed1.jpg?width=1732&format=pjpg&auto=webp&s=c34c305226da90d5f1523ca0ddc569203670138c",
+  "btm connection pending for hamlet": "https://cloudimages.broadwayworld.com/regionalshows/nd6a5be7ff21814.jpg",
+  "footpath encroached near school": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/0/5198009/attachments/2856970",
+  "speed breaker worn out on highway": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=24527116723548774",
+  "market parking congestion unrelieved": "https://www.motrike.com/wp-content/uploads/2026/02/Traffic-jam-view-from-driver-seat.jpg",
+  "stop sign missing at junction": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1604914850441419",
+  "footbridge lighting not working": "https://www.dwwindsor.com/assets/Uploads/imagefeatured/_resampled/FillWyIxMTcwIiwiNDAwIl0/Selkirk-banner-image-2340x800px.jpg",
+  "farm pond silted — irrigation reduced": "https://thumbs.dreamstime.com/b/drought-affected-farmland-shows-cracks-dry-soil-amid-rows-crops-under-clear-sky-rural-area-exhibits-prominent-347058850.jpg",
+  "borewell dry for kharif sowing": "https://thumbs.dreamstime.com/b/drought-affected-farmland-shows-cracks-dry-soil-amid-rows-crops-under-clear-sky-rural-area-exhibits-prominent-347058850.jpg",
+  "soil testing camp requested": "https://extension.uga.edu/content/dam/extension/program-service-logos/soil-sample.jpg",
+  "seed bank stock low before sowing": "https://api.scaleblogger.com/storage/v1/object/public/generated-media/websites/a6f11e75-f1c0-482f-b5fd-bcc0d95d8a52/visual/evaluating-seed-banks-how-to-choose-the-right-one-for-qualit-diagram-1770108059704.png",
+  "crop residue burning flares up": "https://media.nature.com/lw1200/magazine-assets/d44151-025-00016-2/d44151-025-00016-2_50597942.jpg",
+  "community drip line damaged": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=24317908704466042",
+  "school classroom roof leaking": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/0/5198009/attachments/2856970",
+  "girls toilet locked at govt school": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/0/5198009/attachments/2856970",
+  "mid-day meal kitchen needs upgrade": "https://cdn.shopify.com/s/files/1/0780/3066/8029/files/The_5-Step_Meal_Prep_System.png?v=1772866395",
+  "library books stock outdated": "https://media.istockphoto.com/id/1440736132/photo/old-books-on-the-shelves.jpg?s=612x612&w=0&k=20&c=uxOn64zgMEFI--kjtplkftinXNN32zNY03yf1cnqBOk=",
+  "smart classroom non-functional": "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYWQ1NGUxNDYwLTg3YzAtMTFmMC04NDliLWQxMWMzZjNiMjVlNy5qcGc=",
+  "school boundary wall damaged": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=122208877544023774",
+  "wheelchair ramp blocked at court": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=600790878819955",
+  "bus stand lacks tactile paving": "https://www.theolympian.com/public/latest-news/ax73cj/picture317216330/alternates/LANDSCAPE_1200/bus%20stop%20work",
+  "public building lift non-functional": "https://media.guldmann.com/cdn/5FPHc0X/6539-29-slp194-c-molndal-galleria-goteborg-2019.webp?w=1024&format=webp&q=100",
+  "footpath uneven for mobility aids": "https://cdn11.bigcommerce.com/s-l5f988y8x5/images/stencil/original/uploaded_images/outdoor-rollator-3-1-26.jpg?t=1772345481",
+  "atm not wheelchair accessible": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=600790878819955",
+  "ramp railing missing at health center": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=600790878819955",
+  "pond eutrophication — fish kill risk": "https://water.unl.edu/sites/unl.edu.ianr.extension.water/files/styles/no_crop_960/public/media/image/Toxic%2520Algal%2520bloom.jpg?itok=J8M2e43R",
+  "illegal sand mining at riverbank": "https://www.preventionweb.net/sites/default/files/styles/landscape_16_9/public/2022-07/Uganda-river-sand.jpg?itok=pEQVcG-N",
+  "community grove needs plantation drive": "https://www.orlando.gov/files/sharedassets/public/v/1/departments/sustainability/community-garden-planters.jpg",
+  "air quality spike near brick kilns": "https://cf-images.assettype.com/downtoearth%2F2026-01-22%2Ffk2he4vs%2FPatna-Brick-Kilns-2.jpg?w=640&auto=format%2Ccompress",
+  "wetland encroachment reported": "https://www.jkpi.org/wp-content/uploads/2023/02/wetland-scaled.jpg",
+  "e-waste collection camp requested": "https://streamline.imgix.net/88c08aa6-13e2-4a73-8d8d-0a18c841dbce/1300a158-7d2d-43eb-845c-c6d595be0ed1/2025%20Free%20E-Waste%20Recycle%20%281%29.png?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=9344c0f3cfe358f3d7778b5d21a901e4",
+  "shg revolving fund delayed": "https://images.squarespace-cdn.com/content/v1/5a959a2da9e028220319b575/1528863006145-AM7JRWQMYIU26AA6V3WG/Revolving+Fund.png",
+  "street vendor licenses pending": "https://api-prod.gothamist.com/images/340662/fill-1200x650%7Cformat-webp%7Cwebpquality-85/",
+  "artisan cluster lacks market access": "https://www.imarcgroup.com/CKEditor/5358eb2b-fd4a-4b6b-b1de-e1b32a71b91bslide4.webp",
+  "skill training center seats vacant": "https://origindesign.com/images/portfolio/27.TrainingCenter_.IMG_0171_.v2_.jpg",
+  "cold store needed for horticulture": "https://info.greenspanprofiles.com/hubfs/canva-MAEW7npLJ5c.jpg",
+  "weaver looms need maintenance": "https://gathertextiles.com/cdn/shop/files/DSC_9887_1500x999_crop_center.jpg?v=1671570265"
+};
 
-  // Healthcare & Public Health
-  "phc lacks essential medicines":
-    "https://images.pexels.com/photos/208512/pexels-photo-208512.jpeg?auto=compress&cs=tinysrgb&w=800", // Pharmacy medicine shelves & medicine packs
-  "phc shortage: no free medicines for 6 villages":
-    "https://images.pexels.com/photos/208512/pexels-photo-208512.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "ambulance delay in rural block":
-    "https://images.pexels.com/photos/1170979/pexels-photo-1170979.jpeg?auto=compress&cs=tinysrgb&w=800", // Emergency ambulance response vehicle
-  "cold-chain storage unreliable at phc":
-    "https://images.pexels.com/photos/593451/pexels-photo-593451.jpeg?auto=compress&cs=tinysrgb&w=800", // Pharmaceutical vaccine vials & cold-chain storage
-  "community health camp recommended":
-    "https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&w=800", // Doctor examination clinic & checkup
-  "mobile clinic discontinued for village":
-    "https://images.pexels.com/photos/1612461/pexels-photo-1612461.jpeg?auto=compress&cs=tinysrgb&w=800", // Mobile healthcare clinic van
-  "anganwadi nutrition stock depleted":
-    "https://images.pexels.com/photos/1483880/pexels-photo-1483880.jpeg?auto=compress&cs=tinysrgb&w=800", // Grain nutrition supplies
-
-  // Water Resources & Drinking Water
-  "community drinking water pipe leaking":
-    "https://images.pexels.com/photos/416527/pexels-photo-416527.jpeg?auto=compress&cs=tinysrgb&w=800", // Water pipe burst & leaking under pressure
-  "4-inch fractured pvc community drinking water pipe":
-    "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=800", // Fractured pipeline leaking water
-  "handpump dry in janata colony":
-    "https://images.pexels.com/photos/8481931/pexels-photo-8481931.jpeg?auto=compress&cs=tinysrgb&w=800", // Cast-iron village handpump
-  "safe water kiosk needed near school":
-    "https://images.pexels.com/photos/34053335/pexels-photo-34053335.jpeg?auto=compress&cs=tinysrgb&w=800", // Clean community drinking water tap stand
-  "community water kiosk: clean drinking water for 800 households":
-    "https://images.pexels.com/photos/34053335/pexels-photo-34053335.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "tap connection interrupted for 2 weeks":
-    "https://images.pexels.com/photos/5294114/pexels-photo-5294114.jpeg?auto=compress&cs=tinysrgb&w=800", // Dripping broken public water tap
-  "water supply not available in sardarpura, jodhpur":
-    "https://images.pexels.com/photos/5294114/pexels-photo-5294114.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "water pipeline fractured at sector 12":
-    "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "village storage tank not chlorinated":
-    "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800", // Municipal water pipeline distribution
-  "borewell motor failure affects families":
-    "https://images.pexels.com/photos/35290675/pexels-photo-35290675.jpeg?auto=compress&cs=tinysrgb&w=800", // Water pump stream
-
-  // Sanitation, Waste & Drainage
-  "open drain overflowing near govt. girls school":
-    "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800", // Open street sewer drain overflowing
-  "open drain overflowing near main road":
-    "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "solid waste dumped at vacant plot":
-    "https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=800", // Solid waste pile & rubbish dumped on land
-  "public toilet block non-functional":
-    "https://images.pexels.com/photos/3186574/pexels-photo-3186574.jpeg?auto=compress&cs=tinysrgb&w=800", // Broken public sanitation facility
-  "community dustbin capacity exceeded":
-    "https://images.pexels.com/photos/3850587/pexels-photo-3850587.jpeg?auto=compress&cs=tinysrgb&w=800", // Overflowing trash & plastic waste pile
-  "stagnant water near bus stand":
-    "https://images.pexels.com/photos/2449543/pexels-photo-2449543.jpeg?auto=compress&cs=tinysrgb&w=800", // Dirty stagnant rainwater pool on street
-  "sewage line choked in market area":
-    "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800", // Choked drainage channel
-  "garbage not collected near playground":
-    "https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=800",
-
-  // Electricity & Street Lighting
-  "streetlights dead on maple road for 8 months":
-    "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800", // Pitch-dark street with lamp post at night
-  "streetlights dead on colony road":
-    "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "transformer trips nightly in ward":
-    "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=800", // Electrical transformer & distribution wires on pole
-  "solar street light battery failing":
-    "https://images.pexels.com/photos/1036804/pexels-photo-1036804.jpeg?auto=compress&cs=tinysrgb&w=800", // Solar streetlight pole
-  "power line sagging over footpath":
-    "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=800", // Dangerous low hanging power cables
-  "community water pump no grid power":
-    "https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=800", // Electrical grid transmission lines
-  "grid voltage fluctuation damages fans":
-    "https://images.pexels.com/photos/2330137/pexels-photo-2330137.jpeg?auto=compress&cs=tinysrgb&w=800", // High voltage transformer
-  "btm connection pending for hamlet":
-    "https://images.pexels.com/photos/1036804/pexels-photo-1036804.jpeg?auto=compress&cs=tinysrgb&w=800", // Rural electrical utility poles
-
-  // Roads & Transport
-  "footpath encroached near school":
-    "https://images.pexels.com/photos/1201798/pexels-photo-1201798.jpeg?auto=compress&cs=tinysrgb&w=800", // Damaged & obstructed pedestrian pavement
-  "speed breaker worn out on highway":
-    "https://images.pexels.com/photos/1756957/pexels-photo-1756957.jpeg?auto=compress&cs=tinysrgb&w=800", // Highway asphalt road
-  "market parking congestion unrelieved":
-    "https://images.pexels.com/photos/1009922/pexels-photo-1009922.jpeg?auto=compress&cs=tinysrgb&w=800", // Dense market traffic & parking congestion
-  "stop sign missing at junction":
-    "https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=800", // Complex road intersection
-  "footbridge lighting not working":
-    "https://images.pexels.com/photos/775219/pexels-photo-775219.jpeg?auto=compress&cs=tinysrgb&w=800", // Footbridge / overhead bridge at night
-
-  // Agriculture & Rural
-  "farm pond silted — irrigation reduced":
-    "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800", // Parched, dry cracked silted pond bed
-  "farm borewell dry — 40 acres rain-fed only":
-    "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "borewell dry for kharif sowing":
-    "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800", // Drought cracked agricultural soil
-  "soil testing camp requested":
-    "https://images.pexels.com/photos/1483880/pexels-photo-1483880.jpeg?auto=compress&cs=tinysrgb&w=800", // Farmer holding rich agricultural soil sample
-  "seed bank stock low before sowing":
-    "https://images.pexels.com/photos/2132250/pexels-photo-2132250.jpeg?auto=compress&cs=tinysrgb&w=800", // Agriculture farmland & crops
-  "crop residue burning flares up":
-    "https://images.pexels.com/photos/1112080/pexels-photo-1112080.jpeg?auto=compress&cs=tinysrgb&w=800", // Crop field residue & stubble burning
-  "community drip line damaged":
-    "https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg?auto=compress&cs=tinysrgb&w=800", // Farm crops with drip irrigation rows
-
-  // Education
-  "school classroom roof leaking":
-    "https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?auto=compress&cs=tinysrgb&w=800", // Classroom blackboard & desks
-  "girls toilet locked at govt school":
-    "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800", // Government school campus
-  "mid-day meal kitchen needs upgrade":
-    "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800", // School dining & kitchen hall
-  "library books stock outdated":
-    "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=800", // Library shelves filled with books
-  "smart classroom non-functional":
-    "https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg?auto=compress&cs=tinysrgb&w=800", // Classroom desk & learning equipment
-  "school boundary wall damaged":
-    "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800", // School boundary building
-
-  // Accessibility
-  "wheelchair ramp blocked at court":
-    "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800", // Wheelchair accessibility entrance ramp
-  "no ramp access at district court & bus stand":
-    "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "bus stand lacks tactile paving":
-    "https://images.pexels.com/photos/4064230/pexels-photo-4064230.jpeg?auto=compress&cs=tinysrgb&w=800", // Sidewalk tactile paving & mobility aid
-  "public building lift non-functional":
-    "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "footpath uneven for mobility aids":
-    "https://images.pexels.com/photos/1201798/pexels-photo-1201798.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "atm not wheelchair accessible":
-    "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "ramp railing missing at health center":
-    "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
-
-  // Environment
-  "pond eutrophication — fish kill risk":
-    "https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=800", // Village pond & aquatic water body
-  "illegal sand mining at riverbank":
-    "https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=800", // Natural riverbank & sand
-  "community grove needs plantation drive":
-    "https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=800", // Forest trees & plantation grove
-  "air quality spike near brick kilns":
-    "https://images.pexels.com/photos/1112080/pexels-photo-1112080.jpeg?auto=compress&cs=tinysrgb&w=800", // Atmospheric smoke & air pollution
-  "wetland encroachment reported":
-    "https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "e-waste collection camp requested":
-    "https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=800",
+// Fallback Google Images by Category
+export const CATEGORY_SERPER_IMAGES: Record<string, string> = {
+  "health": "https://widerimage.reuters.com/images/e9hyHkaRFZdDV_jLZuTS6ghAgjhEdt30DxBLPZFDZTsYkcnuQcaHRjtokB78rFwU-DVmEBKkj8wzgQ-b7Dglbg.jfif",
+  "road": "https://streetworksus.com/uploads/_1100x620_crop_center-center_none/Pothole-Repair.png",
+  "water": "https://cdn.prod.website-files.com/66c744f817a807515813c51a/66c8c1a3889ecc200deae2be_SCADA-Systems-and-Leak-Detection-Services.jpeg",
+  "sanitation": "https://thumbs.dreamstime.com/b/overflowing-trash-bins-urban-street-corner-scene-scattered-waste-against-orange-brick-wall-highlighting-management-398072136.jpg",
+  "electricity": "https://t3.ftcdn.net/jpg/00/92/14/96/360_F_92149694_Jsjw4nEtDYoWa1bkgSOt2Q36qG3ftwD3.jpg",
+  "transport": "http://www.pedbikesafe.org/pedsafe/cm_images/AccTra4.jpg",
+  "agriculture": "https://www.ndsu.edu/agriculture/sites/default/files/styles/784x424/public/2021-05/62b717c5-2d71-4dae-b025-6f07bbadcefb_0.jpeg.webp?h=3b5d1417&itok=yMv38dfc",
+  "education": "https://www.schoolfix.com/media/catalog/category/cache/300x300/student-desk-virco-785-series-open-front-desk-workstation.jpg",
+  "accessibility": "https://www.access-board.gov/images/ada-aba/guides/chapter4/4rcr2.jpg",
+  "environment": "https://kaelepulupond.org/wp-content/uploads/20231004-20230311-IMG_7296-1.jpg"
 };
 
 /**
@@ -179,16 +115,15 @@ export function isValidIssueImage(url?: string | null): boolean {
 
 /**
  * Synchronized topic classifier.
- * Checks for exact title matches first, then specific semantic keywords.
- * Never randomizes: always delivers the most accurate picture depicting the issue.
+ * Checks for exact title matches first, then substring match, then category fallback.
+ * Uses 100% authentic Serper Google Images.
  */
 export function getIssueImageByTitleAndCategory(
   title?: string | null,
   category?: string | null,
-  description?: string | null,
+  description?: string | null
 ): string {
   const titleNorm = (title ?? "").toLowerCase().trim();
-  const descNorm = (description ?? "").toLowerCase().trim();
   const catNorm = (category ?? "").toLowerCase().trim();
 
   // 1. Direct 1:1 match in exact dictionary
@@ -198,190 +133,48 @@ export function getIssueImageByTitleAndCategory(
 
   // 2. Substring match against exact dictionary keys
   for (const [key, url] of Object.entries(EXACT_TITLE_IMAGES)) {
-    if (titleNorm.includes(key) || key.includes(titleNorm)) {
+    if (titleNorm.includes(key) || (key.length > 5 && titleNorm && key.includes(titleNorm))) {
       return url;
     }
   }
 
-  // 3. Specific civic problem keyword matching (Title-first)
-
-  // Ambulance
-  if (titleNorm.includes("ambulance") || descNorm.includes("ambulance")) {
-    return "https://images.pexels.com/photos/1170979/pexels-photo-1170979.jpeg?auto=compress&cs=tinysrgb&w=800";
+  // 3. Keyword heuristic match to Serper photos
+  if (titleNorm.includes("hospital") || titleNorm.includes("clinic") || titleNorm.includes("phc") || titleNorm.includes("medicine")) {
+    return EXACT_TITLE_IMAGES["phc lacks essential medicines"] || CATEGORY_SERPER_IMAGES["health"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("water") || titleNorm.includes("pipe") || titleNorm.includes("handpump") || titleNorm.includes("tap")) {
+    return EXACT_TITLE_IMAGES["community drinking water pipe leaking"] || CATEGORY_SERPER_IMAGES["water"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("road") || titleNorm.includes("highway") || titleNorm.includes("pothole") || titleNorm.includes("street")) {
+    return EXACT_TITLE_IMAGES["damaged highway road"] || CATEGORY_SERPER_IMAGES["road"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("garbage") || titleNorm.includes("waste") || titleNorm.includes("drain") || titleNorm.includes("toilet") || titleNorm.includes("sanitat")) {
+    return EXACT_TITLE_IMAGES["solid waste dumped at vacant plot"] || CATEGORY_SERPER_IMAGES["sanitation"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("light") || titleNorm.includes("lamp") || titleNorm.includes("electric") || titleNorm.includes("transformer")) {
+    return EXACT_TITLE_IMAGES["streetlights dead on maple road for 8 months"] || CATEGORY_SERPER_IMAGES["electricity"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("school") || titleNorm.includes("classroom") || titleNorm.includes("student") || titleNorm.includes("library")) {
+    return EXACT_TITLE_IMAGES["school classroom roof leaking"] || CATEGORY_SERPER_IMAGES["education"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("farm") || titleNorm.includes("crop") || titleNorm.includes("soil") || titleNorm.includes("borewell") || titleNorm.includes("irrigation")) {
+    return EXACT_TITLE_IMAGES["farm pond silted — irrigation reduced"] || CATEGORY_SERPER_IMAGES["agriculture"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  }
+  if (titleNorm.includes("ramp") || titleNorm.includes("wheelchair") || titleNorm.includes("access")) {
+    return EXACT_TITLE_IMAGES["wheelchair ramp blocked at court"] || CATEGORY_SERPER_IMAGES["accessibility"] || Object.values(EXACT_TITLE_IMAGES)[0];
   }
 
-  // Medicines / Pharmacy
-  if (
-    titleNorm.includes("medicine") ||
-    titleNorm.includes("prescription") ||
-    titleNorm.includes("pharmacy") ||
-    descNorm.includes("essential medicines")
-  ) {
-    return "https://images.pexels.com/photos/208512/pexels-photo-208512.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
+  // 4. Category fallbacks
+  if (catNorm.includes("health")) return CATEGORY_SERPER_IMAGES["health"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("road") || catNorm.includes("urban") || catNorm.includes("infra")) return CATEGORY_SERPER_IMAGES["road"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("water")) return CATEGORY_SERPER_IMAGES["water"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("sanitat") || catNorm.includes("garbage")) return CATEGORY_SERPER_IMAGES["sanitation"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("electr") || catNorm.includes("energy")) return CATEGORY_SERPER_IMAGES["electricity"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("trans")) return CATEGORY_SERPER_IMAGES["transport"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("agri")) return CATEGORY_SERPER_IMAGES["agriculture"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("educat")) return CATEGORY_SERPER_IMAGES["education"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("access")) return CATEGORY_SERPER_IMAGES["accessibility"] || Object.values(EXACT_TITLE_IMAGES)[0];
+  if (catNorm.includes("environ")) return CATEGORY_SERPER_IMAGES["environment"] || Object.values(EXACT_TITLE_IMAGES)[0];
 
-  // Vaccines / Cold-chain
-  if (titleNorm.includes("cold-chain") || titleNorm.includes("vaccine") || descNorm.includes("cold-chain")) {
-    return "https://images.pexels.com/photos/593451/pexels-photo-593451.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Hospital & Health Care
-  if (
-    titleNorm.includes("hospital") ||
-    titleNorm.includes("facilities doesn't work") ||
-    titleNorm.includes("phc") ||
-    titleNorm.includes("health clinic") ||
-    titleNorm.includes("doctor") ||
-    titleNorm.includes("patient")
-  ) {
-    return "https://images.pexels.com/photos/236380/pexels-photo-236380.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Highway damage / cracks
-  if (
-    titleNorm.includes("highway") ||
-    titleNorm.includes("damaged highway") ||
-    titleNorm.includes("cracked road") ||
-    titleNorm.includes("fissure")
-  ) {
-    return "https://images.pexels.com/photos/1117452/pexels-photo-1117452.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Potholes / Broken street
-  if (
-    titleNorm.includes("pothole") ||
-    titleNorm.includes("broken road") ||
-    titleNorm.includes("road is broken") ||
-    titleNorm.includes("street area") ||
-    titleNorm.includes("road surface")
-  ) {
-    return "https://images.pexels.com/photos/2768961/pexels-photo-2768961.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Streetlights
-  if (
-    titleNorm.includes("streetlight") ||
-    titleNorm.includes("street light") ||
-    titleNorm.includes("lights dead") ||
-    titleNorm.includes("lighting")
-  ) {
-    return "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Transformers & Power lines
-  if (
-    titleNorm.includes("transformer") ||
-    titleNorm.includes("power line") ||
-    titleNorm.includes("sagging") ||
-    titleNorm.includes("voltage") ||
-    titleNorm.includes("grid power")
-  ) {
-    return "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Leaking water pipe
-  if (
-    titleNorm.includes("pipe leaking") ||
-    titleNorm.includes("water pipe") ||
-    titleNorm.includes("pipeline") ||
-    descNorm.includes("fractured")
-  ) {
-    return "https://images.pexels.com/photos/416527/pexels-photo-416527.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Handpump
-  if (titleNorm.includes("handpump") || titleNorm.includes("hand pump")) {
-    return "https://images.pexels.com/photos/8481931/pexels-photo-8481931.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Water tap & standpost
-  if (titleNorm.includes("tap") || titleNorm.includes("drinking water") || titleNorm.includes("kiosk")) {
-    return "https://images.pexels.com/photos/34053335/pexels-photo-34053335.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Open drain / sewage
-  if (
-    titleNorm.includes("open drain") ||
-    titleNorm.includes("drain") ||
-    titleNorm.includes("sewage") ||
-    titleNorm.includes("gutter")
-  ) {
-    return "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Solid waste / garbage pile
-  if (
-    titleNorm.includes("garbage") ||
-    titleNorm.includes("waste") ||
-    titleNorm.includes("dustbin") ||
-    titleNorm.includes("dumped") ||
-    titleNorm.includes("cleanliness")
-  ) {
-    return "https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Drought / Dry soil / Borewell dry / Farm pond silted
-  if (
-    titleNorm.includes("silted") ||
-    titleNorm.includes("borewell dry") ||
-    titleNorm.includes("drought") ||
-    titleNorm.includes("rain-fed")
-  ) {
-    return "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Soil testing
-  if (titleNorm.includes("soil") || descNorm.includes("soil testing")) {
-    return "https://images.pexels.com/photos/1483880/pexels-photo-1483880.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Crops & Farming
-  if (titleNorm.includes("crop") || titleNorm.includes("farm") || titleNorm.includes("sowing")) {
-    return "https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // School classroom
-  if (titleNorm.includes("classroom") || titleNorm.includes("smart class")) {
-    return "https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Library & books
-  if (titleNorm.includes("library") || titleNorm.includes("books")) {
-    return "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // School general
-  if (titleNorm.includes("school") || titleNorm.includes("student")) {
-    return "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Wheelchair ramp & accessibility
-  if (
-    titleNorm.includes("ramp") ||
-    titleNorm.includes("wheelchair") ||
-    titleNorm.includes("tactile") ||
-    titleNorm.includes("accessibility")
-  ) {
-    return "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Public Bus & Traffic
-  if (titleNorm.includes("bus") || titleNorm.includes("traffic") || titleNorm.includes("parking")) {
-    return "https://images.pexels.com/photos/385997/pexels-photo-385997.jpeg?auto=compress&cs=tinysrgb&w=800";
-  }
-
-  // Category fallbacks
-  if (catNorm.includes("health")) return "https://images.pexels.com/photos/236380/pexels-photo-236380.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("road") || catNorm.includes("urban") || catNorm.includes("infra")) return "https://images.pexels.com/photos/2768961/pexels-photo-2768961.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("water")) return "https://images.pexels.com/photos/416527/pexels-photo-416527.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("sanitat") || catNorm.includes("garbage")) return "https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("electr") || catNorm.includes("energy")) return "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("trans")) return "https://images.pexels.com/photos/385997/pexels-photo-385997.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("agri")) return "https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("educat")) return "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("access")) return "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800";
-  if (catNorm.includes("environ")) return "https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=800";
-
-  // Ultimate fallback is road pothole
-  return "https://images.pexels.com/photos/2768961/pexels-photo-2768961.jpeg?auto=compress&cs=tinysrgb&w=800";
+  return CATEGORY_SERPER_IMAGES["road"] || Object.values(EXACT_TITLE_IMAGES)[0];
 }

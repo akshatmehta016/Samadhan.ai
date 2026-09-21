@@ -19,6 +19,8 @@ import {
   Team,
   University,
 } from "@/lib/types";
+import { getIssueImageByTitleAndCategory, CATEGORY_SERPER_IMAGES } from "@/lib/issue-images";
+
 
 export const BRAND = {
   name: "Samadhan.AI",
@@ -156,8 +158,10 @@ export const FLAGSHIP_ISSUE: Issue = {
   trustScore: 97,
   matchScore: 97,
   assignedUniversityId: "bit-mesra",
-  imageUrl:
-    "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=800",
+  imageUrl: getIssueImageByTitleAndCategory(
+    "4-inch fractured PVC community drinking water pipe",
+    "water"
+  ),
   createdAt: now - 3 * DAY,
 };
 
@@ -208,7 +212,10 @@ export const SEED_ISSUES: Issue[] = [
       status: "funded",
       matchScore: 94,
       assignedUniversityId: "iit-jodhpur",
-      imageUrl: "https://images.pexels.com/photos/2827734/pexels-photo-2827734.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "Open drain overflowing near Govt. Girls School",
+        "sanitation"
+      ),
     },
   ),
   seeded(
@@ -228,7 +235,10 @@ export const SEED_ISSUES: Issue[] = [
       status: "team_formed",
       matchScore: 88,
       assignedUniversityId: "mody-university",
-      imageUrl: "https://images.pexels.com/photos/15480506/pexels-photo-15480506.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "Streetlights dead on Maple Road for 8 months",
+        "urban"
+      ),
     },
   ),
   seeded(
@@ -248,7 +258,10 @@ export const SEED_ISSUES: Issue[] = [
       status: "proposed",
       matchScore: 95,
       assignedUniversityId: "aiims-jodhpur",
-      imageUrl: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "PHC shortage: no free medicines for 6 villages",
+        "health"
+      ),
     },
   ),
   seeded(
@@ -268,7 +281,10 @@ export const SEED_ISSUES: Issue[] = [
       status: "ai_validated",
       matchScore: 82,
       assignedUniversityId: "gpc-jodhpur",
-      imageUrl: "https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "Farm borewell dry — 40 acres rain-fed only",
+        "agriculture"
+      ),
     },
   ),
   seeded(
@@ -286,7 +302,10 @@ export const SEED_ISSUES: Issue[] = [
       upvotes: 12,
       commentsCount: 2,
       status: "reported",
-      imageUrl: "https://images.pexels.com/photos/7551608/pexels-photo-7551608.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "No ramp access at district court & bus stand",
+        "accessibility"
+      ),
     },
   ),
   seeded(
@@ -307,8 +326,10 @@ export const SEED_ISSUES: Issue[] = [
       matchScore: 97,
       assignedUniversityId: "bit-mesra",
       peopleAffected: 800,
-      imageUrl:
-        "https://images.pexels.com/photos/34053335/pexels-photo-34053335.jpeg?auto=compress&cs=tinysrgb&w=800",
+      imageUrl: getIssueImageByTitleAndCategory(
+        "Community water kiosk: clean drinking water for 800 households",
+        "water"
+      ),
     },
   ),
 ];
@@ -707,7 +728,7 @@ export function analysisFor(category: CategoryId): AnalysisBundle {
 }
 
 export const REPORT_PHOTOS = [
-  "https://images.pexels.com/photos/12002262/pexels-photo-12002262.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/15085131/pexels-photo-15085131.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/18865287/pexels-photo-18865287.jpeg?auto=compress&cs=tinysrgb&w=800",
+  CATEGORY_SERPER_IMAGES["water"] || "https://ca-times.brightspotcdn.com/dims4/default/0b4443b/2147483647/strip/true/crop/7280x5464+0+0/resize/1200x901!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Ff1%2F46%2F1162b18a40529b1200f26ec056fe%2F1563211-me-weho-water-main-break-residents-gem-018.jpg",
+  CATEGORY_SERPER_IMAGES["road"] || "https://img.equipmentworld.com/files/base/randallreilly/all/image/2016/05/eqw.damaged-cracked-road-cracks-asphalt.png?auto=format%2Ccompress&fit=max&q=70&w=400",
+  CATEGORY_SERPER_IMAGES["sanitation"] || "https://i0.wp.com/billypenn.com/wp-content/uploads/2022/03/illegaldumping-trash-fairhill-crop.jpg?fit=780%2C439&ssl=1",
 ];

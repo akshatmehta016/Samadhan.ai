@@ -6,6 +6,7 @@ import type {
   UniversityMatch,
   Volunteer,
 } from "@/lib/akshat-types";
+import { getIssueImageByTitleAndCategory } from "@/lib/issue-images";
 
 export const PRIMARY_ISSUE: Issue = {
   id: "lok-001",
@@ -20,8 +21,10 @@ export const PRIMARY_ISSUE: Issue = {
   status: "In progress",
   reportedBy: "Priya Sharma",
   reportedDaysAgo: 3,
-  imageUrl:
-    "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=800",
+  imageUrl: getIssueImageByTitleAndCategory(
+    "Water supply not available in Sardarpura, Jodhpur",
+    "Water Resources"
+  ),
   upvotes: 48,
   commentsCount: 14,
   updatesCount: 3,
@@ -43,8 +46,10 @@ export const NEARBY_ISSUES: Issue[] = [
     status: "In progress",
     reportedBy: "Ravi Kumar",
     reportedDaysAgo: 5,
-    imageUrl:
-      "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "Water pipeline fractured at Sector 12",
+      "Water Resources"
+    ),
     upvotes: 32,
     commentsCount: 9,
     updatesCount: 2,
@@ -62,8 +67,10 @@ export const NEARBY_ISSUES: Issue[] = [
     status: "Under review",
     reportedBy: "Anita Roy",
     reportedDaysAgo: 2,
-    imageUrl:
-      "https://images.pexels.com/photos/19156793/pexels-photo-19156793.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "Garbage not collected near playground",
+      "Sanitation"
+    ),
     upvotes: 21,
     commentsCount: 4,
     updatesCount: 1,
@@ -81,8 +88,10 @@ export const NEARBY_ISSUES: Issue[] = [
     status: "New",
     reportedBy: "Aman Verma",
     reportedDaysAgo: 1,
-    imageUrl:
-      "https://images.pexels.com/photos/4857606/pexels-photo-4857606.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "Streetlights not working on Maple Road",
+      "Infrastructure"
+    ),
     upvotes: 15,
     commentsCount: 3,
     updatesCount: 0,
@@ -103,8 +112,10 @@ export const RELATED_DUPLICATE_ISSUES: Issue[] = [
     status: "In progress",
     reportedBy: "Gopal Mehra",
     reportedDaysAgo: 12,
-    imageUrl:
-      "https://images.pexels.com/photos/5294114/pexels-photo-5294114.jpeg?auto=compress&cs=tinysrgb&w=500",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "Water tap broken in Ward 5, Sector 12",
+      "Water Resources"
+    ),
     upvotes: 42,
     commentsCount: 8,
     updatesCount: 2,
@@ -122,8 +133,10 @@ export const RELATED_DUPLICATE_ISSUES: Issue[] = [
     status: "Under review",
     reportedBy: "Kavita Soren",
     reportedDaysAgo: 15,
-    imageUrl:
-      "https://images.pexels.com/photos/35290675/pexels-photo-35290675.jpeg?auto=compress&cs=tinysrgb&w=500",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "No water supply for 2 weeks in nearby village",
+      "Water Resources"
+    ),
     upvotes: 56,
     commentsCount: 17,
     updatesCount: 3,
@@ -141,8 +154,10 @@ export const RELATED_DUPLICATE_ISSUES: Issue[] = [
     status: "In progress",
     reportedBy: "Headmaster S. K. Jha",
     reportedDaysAgo: 20,
-    imageUrl:
-      "https://images.pexels.com/photos/8481931/pexels-photo-8481931.jpeg?auto=compress&cs=tinysrgb&w=500",
+    imageUrl: getIssueImageByTitleAndCategory(
+      "Hand pump not working near school",
+      "Water Resources"
+    ),
     upvotes: 78,
     commentsCount: 23,
     updatesCount: 4,

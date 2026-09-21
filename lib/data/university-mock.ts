@@ -1,8 +1,5 @@
-// ---------------------------------------------------------------------------
-// Samadhan AI University Portal — mock data
-// Ported from "Sarthak's App" (js/data.js: universities/teams/reports/caseStudies).
-// University portal scope only — no citizen phone mockup.
-// ---------------------------------------------------------------------------
+import { getIssueImageByTitleAndCategory } from "@/lib/issue-images";
+
 
 export interface UniversityCategory {
   id: string;
@@ -209,8 +206,8 @@ export const UNIVERSITY_REPORTS: UniversityReport[] = [
     assignedTo: "IIT Jodhpur",
     assignedTeam: "Civil Engineering Team (4 students + Dr. A. Sharma)",
     updatedAgo: "Updated 2 days ago",
-    thumbnail: "https://images.pexels.com/photos/6333640/pexels-photo-6333640.jpeg?auto=compress&cs=tinysrgb&w=800",
-    banner: "https://images.pexels.com/photos/34053335/pexels-photo-34053335.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbnail: getIssueImageByTitleAndCategory("road is broken near the street area", "roads"),
+    banner: getIssueImageByTitleAndCategory("damaged highway road", "roads"),
     description:
       "The road near the main market has large potholes and it is difficult for vehicles and pedestrians to move. It also causes water logging during rain.",
     urgency: "Medium",
@@ -222,9 +219,8 @@ export const UNIVERSITY_REPORTS: UniversityReport[] = [
       { title: "Issue assigned to IIT Jodhpur", time: "3 days ago", done: true },
     ],
     sitePhotos: [
-      "https://images.pexels.com/photos/9960982/pexels-photo-9960982.png?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3876465/pexels-photo-3876465.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/22880409/pexels-photo-22880409.jpeg?auto=compress&cs=tinysrgb&w=800",
+      getIssueImageByTitleAndCategory("road is broken near the street area", "roads"),
+      getIssueImageByTitleAndCategory("damaged highway road", "roads"),
     ],
   },
   {
@@ -237,15 +233,15 @@ export const UNIVERSITY_REPORTS: UniversityReport[] = [
     assignedTo: "Mody University",
     assignedTeam: "Waste Management Cell (5 students + Prof. V. Patel)",
     updatedAgo: "Updated 4 days ago",
-    thumbnail: "https://images.pexels.com/photos/19156793/pexels-photo-19156793.jpeg?auto=compress&cs=tinysrgb&w=800",
-    banner: "https://images.pexels.com/photos/19156793/pexels-photo-19156793.jpeg?auto=compress&cs=tinysrgb&w=800",
+    thumbnail: getIssueImageByTitleAndCategory("solid waste dumped at vacant plot", "garbage"),
+    banner: getIssueImageByTitleAndCategory("open drain overflowing near main road", "garbage"),
     description:
       "Public bins have overflowed for over a week, leading to stray animal nuisance and hygiene risk.",
     urgency: "High",
     progressStep: 0,
     timeline: [{ title: "Assigned to Mody University Team", time: "4 days ago", done: true }],
     sitePhotos: [
-      "https://images.pexels.com/photos/15085131/pexels-photo-15085131.jpeg?auto=compress&cs=tinysrgb&w=800",
+      getIssueImageByTitleAndCategory("solid waste dumped at vacant plot", "garbage"),
     ],
   },
   {
@@ -258,15 +254,15 @@ export const UNIVERSITY_REPORTS: UniversityReport[] = [
     assignedTo: "AIIMS Jodhpur",
     assignedTeam: "Sanitation Taskforce (4 students + Dr. K. Verma)",
     updatedAgo: "Updated 6 days ago",
-    thumbnail: "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800",
-    banner: "https://images.pexels.com/photos/15206136/pexels-photo-15206136.jpeg?auto=compress&cs=tinysrgb&w=800",
+    thumbnail: getIssueImageByTitleAndCategory("community drinking water pipe leaking", "water"),
+    banner: getIssueImageByTitleAndCategory("water pipeline fractured at sector 12", "water"),
     description:
       "Underground main pipeline rupture causing pure drinking water flooding across street.",
     urgency: "Medium",
     progressStep: 0,
     timeline: [{ title: "Issue registered & verification in queue", time: "6 days ago", done: true }],
     sitePhotos: [
-      "https://images.pexels.com/photos/8481931/pexels-photo-8481931.jpeg?auto=compress&cs=tinysrgb&w=800",
+      getIssueImageByTitleAndCategory("community drinking water pipe leaking", "water"),
     ],
   },
 ];
