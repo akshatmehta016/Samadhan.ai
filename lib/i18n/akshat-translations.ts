@@ -187,7 +187,7 @@ const AKSHAT_EN: AkshatDict = {
   topVolunteersSub: "Citizens leading ground implementation",
   viewAll: "View All",
   solvedCount: "solved",
-  issueCategories: "Issue Categories (Bento Grid)",
+  issueCategories: "Issue Categories",
   issueCategoriesSub: "Select a department domain to filter civic challenges",
   issuesLabel: "Issues",
   impactAnalytics: "Community Impact Analytics",

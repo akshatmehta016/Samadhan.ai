@@ -92,7 +92,7 @@ export const ColorfulCategoryBentoWidget = ({
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h3 className="text-base font-black text-slate-900 sm:text-lg">
-            {t("issueCategories", "Issue Categories (Bento Grid)")}
+            {t("issueCategories", "Issue Categories")}
           </h3>
           <p className="text-xs text-slate-700">
             {t("issueCategoriesSub", "Select a department domain to filter civic challenges")}
