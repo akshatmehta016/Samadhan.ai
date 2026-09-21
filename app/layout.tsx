@@ -19,9 +19,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Samadhan.AI — Civic Crowdsourcing Bridge",
+  title: "Samadhan.ai",
   description:
     "One citizen. One problem. One platform. Real change. AI-powered routing from citizen reports to universities and funders.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export const viewport = {
